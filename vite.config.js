@@ -4,6 +4,8 @@ import handlebars from "vite-plugin-handlebars";
 import noAttrScripts from "./plugins/noAttrScripts";
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 import svgSpritemap from "vite-plugin-svg-spritemap";
+import htmlImgAlias from "./plugins/htmlImgAlias";
+import componentsFullReload from "./plugins/componentsFullReload";
 
 export default defineConfig(({ command }) => {
   const isBuild = command === "build";
@@ -11,12 +13,18 @@ export default defineConfig(({ command }) => {
   const plugins = [
     handlebars({
       partialDirectory: resolve(__dirname, "components"),
+      reloadOnPartialChange: true,
     }),
     ViteImageOptimizer(),
     svgSpritemap({
       pattern: "src/icons/*.svg", // Путь ко всем вашим SVG-иконкам
-      filename: "sprite.svg", // Имя выходного файла спрайта
+      filename: "icons.svg", // Имя выходного файла спрайта
+      output: {
+        filename: "img/icons/icons.svg", // Путь в билде относительно dist
+      },
     }),
+    htmlImgAlias(),
+    componentsFullReload(),
   ];
 
   if (isBuild) {
@@ -29,5 +37,10 @@ export default defineConfig(({ command }) => {
       minify: false,
     },
     plugins,
+    resolve: {
+      alias: {
+        "@img": resolve(__dirname, "img"),
+      },
+    },
   };
 });
