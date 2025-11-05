@@ -6,6 +6,7 @@ import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 import svgSpritemap from "vite-plugin-svg-spritemap";
 import htmlImgAlias from "./plugins/htmlImgAlias";
 import componentsFullReload from "./plugins/componentsFullReload";
+import htmlSvgAlias from "./plugins/htmlSvgAlias";
 
 export default defineConfig(({ command }) => {
   const isBuild = command === "build";
@@ -19,12 +20,10 @@ export default defineConfig(({ command }) => {
     svgSpritemap({
       pattern: "src/icons/*.svg", // Путь ко всем вашим SVG-иконкам
       filename: "icons.svg", // Имя выходного файла спрайта
-      output: {
-        filename: "img/icons/icons.svg", // Путь в билде относительно dist
-      },
     }),
     htmlImgAlias(),
     componentsFullReload(),
+    htmlSvgAlias(),
   ];
 
   if (isBuild) {
