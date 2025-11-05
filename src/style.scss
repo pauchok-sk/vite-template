@@ -1,0 +1,19 @@
+@use "./styles/base/normalize";
+@use "./styles/base/vars";
+@use "./styles/base/templates";
+@use "./styles/base/settings";
+@use "./styles/base/media";
+@use "./styles/base/body-config";
+@use "./styles/base/config-container";
+
+// ui
+@use "./styles/ui/button";
+@use "./styles/ui/list";
+@use "./styles/ui/title";
+
+// components
+@use "./styles/components/header";
+
+
+
+@use "./styles/components/footer";
