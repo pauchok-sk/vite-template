@@ -18,12 +18,19 @@ export default defineConfig(({ command }) => {
     }),
     ViteImageOptimizer(),
     svgSpritemap({
-      pattern: "src/icons/*.svg", // Путь ко всем вашим SVG-иконкам
-      filename: "icons.svg", // Имя выходного файла спрайта
+      pattern: "src/icons/*.svg",
+      filename: "icons.svg",
+      styles: false,
+      injectSVGOnDev: true,
+      // Обработка SVG перед добавлением в спрайт
+      transform: (content, filepath) => {
+        // Заменяем все fill на currentColor
+        return content.replace(/fill="[^"]*"/g, 'fill="currentColor"');
+      },
     }),
+    htmlSvgAlias(),
     htmlImgAlias(),
     componentsFullReload(),
-    htmlSvgAlias(),
   ];
 
   if (isBuild) {
@@ -39,6 +46,11 @@ export default defineConfig(({ command }) => {
     resolve: {
       alias: {
         "@img": resolve(__dirname, "img"),
+      },
+    },
+    server: {
+      hmr: {
+        overlay: true,
       },
     },
   };
